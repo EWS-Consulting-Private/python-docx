@@ -1,6 +1,6 @@
 BEHAVE = behave
 MAKE   = make
-PYTHON = python
+PYTHON = .venv/bin/python
 SETUP  = $(PYTHON) ./setup.py
 
 .PHONY: accept clean coverage docs readme register sdist test upload
@@ -14,8 +14,18 @@ help:
 	@echo "  docs      generate documentation"
 	@echo "  opendocs  open browser to local version of documentation"
 	@echo "  register  update metadata (README.rst) on PyPI"
-	@echo "  sdist     generate a source distribution into dist/"
+	@echo "-------------------- EWS Specific --------------------"
+	@echo "  venv      Create the virtual environnement"
+	@echo "  deps      Install the PIP dependencies"
+	@echo "  build     generate a source distribution into dist/"
 	@echo "  upload    upload distribution tarball to PyPI"
+
+venv:
+	python3 -m venv .venv --clear 
+
+deps:
+	$(PYTHON) -m pip install wheel build twine
+
 
 accept:
 	$(BEHAVE) --stop
@@ -36,11 +46,8 @@ docs:
 opendocs:
 	open docs/.build/html/index.html
 
-register:
-	$(SETUP) register
+build: clean 
+	 $(PYTHON) -m build --sdist --wheel --outdir ./dist
 
-sdist:
-	$(SETUP) sdist
-
-upload:
-	$(SETUP) sdist upload
+upload: 
+	 $(PYTHON) -m twine upload --verbose --repository-url http://wks10pro-125:8082/ --username . --password . ./dist/*
