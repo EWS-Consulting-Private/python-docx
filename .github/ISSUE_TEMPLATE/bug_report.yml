@@ -3,8 +3,12 @@ description: Report an error or unexpected behavior
 labels: [bug]
 
 body:
-  - type: markdown
+
+  - type: textarea
+    id: body
     attributes:
+      label: Reproduction steps
+      description: "How do you trigger this bug? Please walk us through it step by step."
       value: |
         You can share a Quarto document using the following syntax:
 
@@ -31,8 +35,5 @@ body:
             
             The end.
             ````
-
-  - type: input
-    id: name
-    attributes:
-      label: First name
+    validations:
+      required: true
