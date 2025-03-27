@@ -31,3 +31,8 @@ body:
             
             The end.
             ````
+
+  - type: input
+    id: name
+    attributes:
+      label: First name
